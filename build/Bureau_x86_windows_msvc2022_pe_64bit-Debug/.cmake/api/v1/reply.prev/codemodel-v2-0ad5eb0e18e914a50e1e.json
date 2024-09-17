@@ -1,0 +1,79 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-89c7e591d05a2f9ba684.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "NebuleuseEngine",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "NebuleuseEngine::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-NebuleuseEngine-Debug-45fd94df181b9e177d66.json",
+					"name" : "NebuleuseEngine",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "NebuleuseEngine_autogen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-NebuleuseEngine_autogen-Debug-77259bd7a9df1eaa273e.json",
+					"name" : "NebuleuseEngine_autogen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "NebuleuseEngine_autogen_timestamp_deps::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-NebuleuseEngine_autogen_timestamp_deps-Debug-88a4d87cf13a69318df4.json",
+					"name" : "NebuleuseEngine_autogen_timestamp_deps",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "H:/Bureau/NebuleuseEngine/build/Bureau_x86_windows_msvc2022_pe_64bit-Debug",
+		"source" : "H:/Bureau/NebuleuseEngine"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 7
+	}
+}

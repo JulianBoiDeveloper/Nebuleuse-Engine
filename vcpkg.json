@@ -1,0 +1,8 @@
+{
+    "name": "nebuleuse-engine",
+    "version": "0.0.1",
+    "dependencies": [
+    ],
+    "builtin-baseline": "29b2ea2d4b6197e66ef346e62ccbba35b55b7de5",
+    "default-features": []
+}

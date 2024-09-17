@@ -1,15 +1,72 @@
-﻿# CMakeList.txt : fichier projet CMake de niveau supérieur, effectuez une configuration globale
-# et incluez les sous-projets ici.
-#
-cmake_minimum_required (VERSION 3.8)
+cmake_minimum_required(VERSION 3.16)
 
-# Activez Rechargement à chaud pour les compilateurs MSVC si cela est pris en charge.
-if (POLICY CMP0141)
-  cmake_policy(SET CMP0141 NEW)
-  set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "$<IF:$<AND:$<C_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:MSVC>>,$<$<CONFIG:Debug,RelWithDebInfo>:EditAndContinue>,$<$<CONFIG:Debug,RelWithDebInfo>:ProgramDatabase>>")
+project(NebuleuseEngine VERSION 0.1 LANGUAGES CXX)
+
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+set(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake)
+
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+
+set(PROJECT_SOURCES
+        main.cpp
+        mainwindow.cpp
+        mainwindow.h
+        mainwindow.ui
+)
+
+if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
+    qt_add_executable(NebuleuseEngine
+        MANUAL_FINALIZATION
+        ${PROJECT_SOURCES}
+    )
+# Define target properties for Android with Qt 6 as:
+#    set_property(TARGET NebuleuseEngine APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
+#                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
+# For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
+else()
+    if(ANDROID)
+        add_library(NebuleuseEngine SHARED
+            ${PROJECT_SOURCES}
+        )
+# Define properties for Android with Qt 5 after find_package() calls as:
+#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
+    else()
+        add_executable(NebuleuseEngine
+            ${PROJECT_SOURCES}
+        )
+    endif()
 endif()
 
-project ("Nebuleuse-Engine")
+target_link_libraries(NebuleuseEngine PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 
-# Incluez les sous-projets.
-add_subdirectory ("Nebuleuse-Engine")
+# Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
+# If you are developing for iOS or macOS you should consider setting an
+# explicit, fixed bundle identifier manually though.
+if(${QT_VERSION} VERSION_LESS 6.1.0)
+  set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.NebuleuseEngine)
+endif()
+set_target_properties(NebuleuseEngine PROPERTIES
+    ${BUNDLE_ID_OPTION}
+    MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
+    MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
+    MACOSX_BUNDLE TRUE
+    WIN32_EXECUTABLE TRUE
+)
+
+include(GNUInstallDirs)
+install(TARGETS NebuleuseEngine
+    BUNDLE DESTINATION .
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
+
+if(QT_VERSION_MAJOR EQUAL 6)
+    qt_finalize_executable(NebuleuseEngine)
+endif()
